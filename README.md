@@ -21,10 +21,15 @@ Uma heap é uma estrutura de dados fundamental que organiza um conjunto de eleme
 
 ### Estrutura do codigo
 <p align="justify">
-O codigo consiste em 5 loops principais, sendo dois para leitura dos arquivos de texto, um para ler o arquivo de stop words, que são palavras que não devem ser contabilizadas, um para preencher e outro apenas para printar os k elementos mais valiosos. Os loops de leitura leem linha por linha dos arquivos de dados, para cada linha é criado um fluxo de string e um token para armazenar cada palavra. Após isso existe outro loop dentro deste loop que lê cada token do fluxo de string e insere na hash junto com sua frequencia que é incrementada dentro do loop tambem. 
+O codigo consiste em 5 loops principais, sendo dois para leitura dos arquivos de texto, um para ler o arquivo de stop words, que são palavras que não devem ser contabilizadas, um para preencher a heap e outro apenas para printar os k elementos mais valiosos. Os loops de leitura leem linha por linha dos arquivos de dados, para cada linha é criado um fluxo de string e um token para armazenar cada palavra. Após isso existe outro loop dentro deste loop que lê cada token do fluxo de string e insere na hash junto com sua frequencia que é incrementada dentro do loop tambem. Após esse processo de leitura dos arquivos e de inserção na hash, existe outro loop que lê o arquivo de stop words e remove elas da hash usando a função erase. 
 
+<p align="center">
+<img height="600px" width="600px" src="imagens/leitura.png"/>
+<p> </p>
+
+### Tratamentos
 <p align="justify">
-Antes de cada palavra ser inserida, ela passa alguns tratamentos, sendo um para remover os sinais de pontuação, dois para transformar todas as letras maiusculas para minusculas, isso garante que palavras com diferentes caixas (maiúsculas/minúsculas) sejam tratadas como iguais e um para tratar caracteres estranhos. 
+Antes de cada palavra ser inserida, ela passa alguns tratamentos, sendo um para remover os sinais de pontuação, dois para transformar todas as letras maiusculas para minusculas e um para tratar caracteres estranhos, além de um para tratar caracteres estranho. Para usar esses tratamentos foi necessario incluir a biblioteca <i>algorithm</i> que contém a função remove_if, usada para remover elementos de uma sequência que atendem a uma determinada condição e a função ispunct que é usada para determinar se um caractere é um caractere de pontuação (por exemplo, vírgula, ponto, ponto-e-vírgula, etc.). Já a função transform é usada para aplicar uma transformação a cada elemento em uma sequência (como um vetor, uma string, etc.) e armazenar os resultados em outra sequência ou na mesma sequência. No caso deste codigo, ela esta sendo usada para converter todos os caracteres do token para letras minúsculas, usando a função tolower como argumento. Essa transformação garante que palavras com diferentes caixas (maiúsculas/minúsculas) sejam tratadas como iguais. Além disso existe uma função criado no codigo que trata apenas os caracteres acentuados, transformando todos em minusculos, já que a conversão de caracteres acentuados entre maiúsculas e minúsculas nem sempre é direta devido às diferenças entre os conjuntos de caracteres ASCII e Unicode, além da que a forma de representar um caracter acentuado é diferente de uma representação de um caracter normal. Ainda existe outra função criada no código para tratar apenas de um caracter em espedifico, neste caso o travessão. A função que remove todos os sinais de pontuação não consegue remover o travessão,  
 
 ## Resultado
 

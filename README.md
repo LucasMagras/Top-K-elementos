@@ -4,7 +4,7 @@
 <p align="justify">
 O objetivo do problema "Top k elementos" é encontrar os k itens mais valiosos de uma coleção de dados, neste caso, encontrar as palavras mais frequentes de um determinado texto. Esse é um clássico exemplo de um problema que pode ser solucionado utilizando as estruturas de hash e heap. Esse algoritmo é uma combinação eficiente do uso de hash para contar a frequência dos elementos e heap para manter a lista dos k elementos com maiores valores. Sua complexidade, caso implementado adequadamente, é de O(nlogk), onde n é o tamanho da coleção de dados e k o número de itens mais relevantes.
 
-## Lógica usada
+## Lógica implementada
 <p align="justify">
 Para resolver esse problema foi utilizado a hash para contar a frequência de todos os itens, enquanto o heap se aplica na manutenção de uma lista dos k itens de maior valor. Para implementar a tabela hash foi usada a biblioteca <i>unordered_map</i> que permite criar uma hash com mais facilidade. Para implementar a heap foi usada a biblioteca <i>queue</i> utilizando a priority_queue como estrutura. Por fim foi usado uma struct <i>Item</i> para armazenar uma palavra e sua frequencia.
 
@@ -21,17 +21,42 @@ Uma heap é uma estrutura de dados fundamental que organiza um conjunto de eleme
 
 ### Estrutura do codigo
 <p align="justify">
-O codigo consiste em 5 loops principais, sendo dois para leitura dos arquivos de texto, um para ler o arquivo de stop words, que são palavras que não devem ser contabilizadas, um para preencher a heap e outro apenas para printar os k elementos mais valiosos. Os loops de leitura leem linha por linha dos arquivos de dados, para cada linha é criado um fluxo de string e um token para armazenar cada palavra. Após isso existe outro loop dentro deste loop que lê cada token do fluxo de string e insere na hash junto com sua frequencia que é incrementada dentro do loop tambem. Após esse processo de leitura dos arquivos e de inserção na hash, existe outro loop que lê o arquivo de stop words e remove elas da hash usando a função erase. 
+O codigo consiste em 5 loops principais, sendo dois para leitura dos arquivos de texto, um para ler o arquivo de stop words, que são palavras que não devem ser contabilizadas, um para preencher a heap e outro apenas para printar os k elementos mais valiosos. Os loops de leitura leem linha por linha dos arquivos de dados, para cada linha é criado um fluxo de string e um token para armazenar cada palavra. Após isso existe outro loop dentro deste loop que lê cada token do fluxo de string e insere na hash junto com sua frequencia que é incrementada dentro do loop tambem.
 
 <p align="center">
-<img height="600px" width="600px" src="imagens/leitura.png"/>
-<p> </p>
+<img src="images/leitura.JPG">
+</p>
 
+<p align="justify">
+Após esse processo de leitura dos arquivos e de inserção na hash, existe outro loop que lê o arquivo de stop words e remove elas da hash usando a função erase. A função erase é chamada na tabela de dispersão usando o token como chave. Isso exclui a entrada correspondente à chave da tabela de dispersão, resultando na remoção da palavra da contagem de frequência.
+
+<p align="center">
+<img src="images/sw.JPG">
+</p>
+
+<p align="justify">
+Por fim, existe o loop responsável por preencher a heap com os "k" elementos mais valiosos. Que consiste em um for que percorre cada par chave-valor na tabela de dispersão frequencia. O par chave-valor é representado por const auto& pair, onde pair.first é a chave (palavra) e pair.second é o valor (frequência da palavra). A primeira condição verifica se a heap ainda não está cheia (contém menos de "k" elementos). Se for o caso, o par chave-valor atual é inserido diretamente na heap usando heap.push. Se a heap já estiver cheia, a condição do else if verifica se a frequência da palavra atual é maior do que a frequência do elemento no topo da heap. Isso é feito para comparar a palavra atual com a palavra de menor frequência entre os "k" elementos da heap. Se a frequência da palavra atual for maior, significa que ela é mais valiosa e deve ser incluída na heap em vez da palavra com a menor frequência atualmente no topo da heap. Portanto, o elemento de menor frequência é removido da heap com heap.pop(), e o novo par chave-valor é inserido usando heap.push.
+
+<p align="center">
+<img src="images/heap.JPG">
+</p>
+ 
 ### Tratamentos
 <p align="justify">
-Antes de cada palavra ser inserida, ela passa alguns tratamentos, sendo um para remover os sinais de pontuação, dois para transformar todas as letras maiusculas para minusculas e um para tratar caracteres estranhos, além de um para tratar caracteres estranho. Para usar esses tratamentos foi necessario incluir a biblioteca <i>algorithm</i> que contém a função remove_if, usada para remover elementos de uma sequência que atendem a uma determinada condição e a função ispunct que é usada para determinar se um caractere é um caractere de pontuação (por exemplo, vírgula, ponto, ponto-e-vírgula, etc.). Já a função transform é usada para aplicar uma transformação a cada elemento em uma sequência (como um vetor, uma string, etc.) e armazenar os resultados em outra sequência ou na mesma sequência. No caso deste codigo, ela esta sendo usada para converter todos os caracteres do token para letras minúsculas, usando a função tolower como argumento. Essa transformação garante que palavras com diferentes caixas (maiúsculas/minúsculas) sejam tratadas como iguais. Além disso existe uma função criado no codigo que trata apenas os caracteres acentuados, transformando todos em minusculos, já que a conversão de caracteres acentuados entre maiúsculas e minúsculas nem sempre é direta devido às diferenças entre os conjuntos de caracteres ASCII e Unicode, além da que a forma de representar um caracter acentuado é diferente de uma representação de um caracter normal. Ainda existe outra função criada no código para tratar apenas de um caracter em espedifico, neste caso o travessão. A função que remove todos os sinais de pontuação não consegue remover o travessão,  
+Antes de cada palavra ser inserida, ela passa alguns tratamentos, sendo um para remover os sinais de pontuação, dois para transformar todas as letras maiusculas para minusculas e um para tratar caracteres estranhos, além de um para tratar caracteres estranho. Para usar esses tratamentos foi necessario incluir a biblioteca <i>algorithm</i>. Para remover os sinais de pontuação foi usada a função erase junto com as funções remove_if, que remove elementos de uma sequência que atendem a uma determinada condição e a função ispunct que é usada para determinar se um caractere é um caractere de pontuação (por exemplo, vírgula, ponto, ponto-e-vírgula). A função remove_if remove os caracteres que atendem à condição passada, neste caso, ispunct, que verifica se um caractere é um sinal de pontuação.
+<p align="justify">
+Já a função transform é usada para aplicar uma transformação a cada elemento em uma sequência (como um vetor, uma string, etc.) e armazenar os resultados em outra sequência ou na mesma sequência. No caso deste codigo, ela esta sendo usada para converter todos os caracteres do token para letras minúsculas, usando a função tolower como argumento. Essa transformação garante que palavras com diferentes caixas (maiúsculas/minúsculas) sejam tratadas como iguais. Além disso foi criada a função ConverterAcentuadasParaMinusculas() que trata apenas os caracteres acentuados, transformando todos em minusculos, já que a conversão de caracteres acentuados entre maiúsculas e minúsculas nem sempre é direta devido às diferenças entre os conjuntos de caracteres ASCII e Unicode, além da que a forma de representar um caracter acentuado é diferente de uma representação de um caracter normal. Essa função recebe uma string como argumento e duas strings são definidas, maiuscula e minuscula, cada uma delas contém caracteres acentuados maiúsculos e seus equivalentes minúsculos, respectivamente. O loop percorre os caracteres da string maiuscula, e a função replace é usada para substituir todas as ocorrências do caractere acentuado maiúsculo pelo seu equivalente minúsculo na string que a função recebeu. Isso é feito para cada caractere acentuado na sequência maiuscula. Após o loop a função retorna a string com os caracteres acentuados minusculos.
+<p align="justify">
+Ainda existe outra função criada no código para tratar apenas de um caracter em espedifico, neste caso o travessão. A função que remove todos os sinais de pontuação não consegue remover o travessão, porque o caractere '—' é um caractere especial e pode ter representações diferentes dependendo da codificação do arquivo. Para tratar isso foi usada a sequencia de bytes que representa o caractere '—' na codificação UTF-8, que se for achada na hash usando a função find(), retornará false.
 
 ## Resultado
+
+<p align="center">
+<img src="images/print.JPG">
+</p>
+
+<p align="justify">
+A saida do programa motra as palavras mais frequentes, seguindo a ordem crescente de cima para baixo. Ao final ainda é printado o tempo de execução do programa, para isso foi necessario usar a biblioteca <time.h>. 
 
 ## Conclusão
 

@@ -16,7 +16,7 @@ Como foi dito, para implementar a tabela hash foi usado a estrutura <i>unordered
 Como em qualquer tabela de dispersão, pode ocorrer colisões quando duas chaves diferentes geram o mesmo valor de hash. As técnicas para lidar com colisões variam, mas a biblioteca padrão do C++ geralmente utiliza o método de "encadeamento" para resolver essas situações. No método de encadeamento, cada posição da tabela de dispersão contém uma lista ligada de elementos que possuem o mesmo valor de hash. Quando ocorre uma colisão, um novo elemento é simplesmente adicionado à lista ligada correspondente. O encadeamento é uma técnica eficaz para lidar com colisões, mas ele pode causar aumento no uso de memória devido à necessidade de armazenar as listas ligadas. No entanto, essa abordagem oferece um bom desempenho médio para inserção, busca e remoção de elementos, tornando o unordered_map uma estrutura de dados poderosa e versátil para lidar com mapeamentos de chave-valor. 
 
 ```cpp
-    unordered_map<string, int> frequencia; // hash que armazena a palavra e a freq que ela aparece
+unordered_map<string, int> frequencia; // hash que armazena a palavra e a freq que ela aparece
 ```
 
 ### Heap
